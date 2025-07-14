@@ -1,0 +1,179 @@
+.horizontal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.horizontal-content {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+}
+.upload-section {
+    min-width: 140px;
+    flex: 1;
+}
+.confetti-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 140px;
+    flex: 1;
+}
+@media (max-width: 900px) {
+    .horizontal-content {
+        flex-direction: column;
+        gap: 18px;
+        align-items: stretch;
+    }
+}
+.container.redesigned {
+    max-width: 420px;
+    margin: 60px auto;
+    background: rgba(255,255,255,0.92);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    padding: 36px 28px 28px 28px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(2px);
+}
+
+.birthday-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.birthday-icon {
+    font-size: 2.2em;
+    margin-right: 4px;
+}
+.container.redesigned h1 {
+    color: #ff4e50;
+    font-size: 2em;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.confetti-btn {
+    background: linear-gradient(90deg, #f9d423 0%, #ff4e50 100%);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    margin-bottom: 22px;
+    transition: background 0.3s, transform 0.2s;
+}
+.confetti-btn:hover {
+    background: linear-gradient(90deg, #ff4e50 0%, #f9d423 100%);
+    transform: scale(1.07);
+}
+.upload-section {
+    margin-top: 18px;
+    text-align: left;
+    background: rgba(255,255,255,0.7);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.upload-section label {
+    font-size: 1em;
+    color: #333;
+    margin-right: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.upload-icon {
+    font-size: 1.2em;
+}
+.birthday-img {
+    display: none;
+    max-width: 100%;
+    margin-top: 14px;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+}
+.birthday-audio {
+    display: none;
+    margin-top: 12px;
+    width: 100%;
+}
+body {
+    background: #111;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#falling-text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 500px;
+    margin: 80px auto;
+    background: rgba(255,255,255,0.85);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.vertical-falling {
+    position: absolute;
+    font-size: 1.2em;
+    font-weight: bold;
+    opacity: 0;
+    animation: verticalFalling 4s linear forwards;
+    pointer-events: none;
+    text-align: center;
+    white-space: pre;
+    z-index: 1;
+    will-change: transform, opacity, filter;
+}
+
+@keyframes verticalFalling {
+    0% {
+        transform: translateY(-60px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(350px);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(400px);
+        filter: blur(3px);
+    }
+}

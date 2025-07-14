@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc Mừng Sinh Nhật!</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="falling-text"></div>
+    <div class="container redesigned horizontal-form">
+      <div class="birthday-header">
+        <span class="birthday-icon">🎂</span>
+        <h1>Chúc Mừng Sinh Nhật!</h1>
+      </div>
+      <div class="horizontal-content">
+        <div class="upload-section">
+          <label for="imgUpload"
+            ><span class="upload-icon">🖼️</span> Ảnh sinh nhật:</label
+          >
+          <input type="file" id="imgUpload" accept="image/*" />
+          <img id="birthdayImg" class="birthday-img" />
+        </div>
+        <div class="upload-section">
+          <label for="audioUpload"
+            ><span class="upload-icon">🎵</span> Nhạc nền:</label
+          >
+          <input type="file" id="audioUpload" accept="audio/*" />
+          <audio id="birthdayAudio" controls class="birthday-audio"></audio>
+        </div>
+        <div class="confetti-section">
+          <button class="confetti-btn" onclick="showConfetti()">
+            🎉 Nhận pháo hoa
+          </button>
+          <canvas id="confetti"></canvas>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      // Danh sách các lời chúc ngẫu nhiên
+      const wishes = [
+        "Chúc mừng sinh nhật!",
+        "Vui vẻ, hạnh phúc nhé!",
+        "Thành công và may mắn!",
+        "Luôn cười thật tươi!",
+        "Mãi yêu đời!",
+        "Sức khỏe dồi dào!",
+        "Ước gì được nấy!",
+        "Bên gia đình và bạn bè!",
+        "Tuổi mới thật tuyệt!",
+        "Happy Birthday!",
+      ];
+
+      function getRandomColor() {
+        const colors = [
+          "#ff4e50",
+          "#f9d423",
+          "#00c3ff",
+          "#ff00cc",
+          "#00ff99",
+          "#ffcc00",
+          "#ff6600",
+          "#00ffcc",
+          "#cc00ff",
+          "#ff0066",
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      // Scrambling Text Effect cho background
+      function scrambleText(text) {
+        const chars =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        let scrambled = "";
+        for (let i = 0; i < text.length; i++) {
+          scrambled +=
+            Math.random() > 0.5
+              ? chars[Math.floor(Math.random() * chars.length)]
+              : text[i];
+        }
+        return scrambled;
+      }
+
+      function createScramblingFallingText() {
+        const text = wishes[Math.floor(Math.random() * wishes.length)];
+        const container = document.getElementById("falling-text");
+        const div = document.createElement("div");
+        div.className = "vertical-falling";
+        // Random vị trí ngang và chiều sâu (scale, blur, opacity)
+        const left = Math.random() * 100;
+        const width = Math.random() * 2 + 1; // 1-3em
+        const scale = Math.random() * 0.7 + 0.7; // 0.7-1.4
+        const blur = Math.random() * 2.5; // 0-2.5px
+        const opacity = Math.random() * 0.5 + 0.5; // 0.5-1
+        div.style.left = left + "vw";
+        div.style.width = width + "em";
+        div.style.transform = `scale(${scale})`;
+        div.style.filter = `blur(${blur}px)`;
+        div.style.opacity = opacity;
+        div.style.textShadow = `0 0 16px ${getRandomColor()}, 0 0 32px #fff2`;
+        // Không đè lên hộp chính
+        const topArea = Math.random() * 80; // 0-80vh
+        div.style.top = topArea + "vh";
+        // Tạo từng ký tự thành 1 span dọc với scrambling effect và hiệu ứng rơi
+        for (let i = 0; i < text.length; i++) {
+          const charSpan = document.createElement("span");
+          charSpan.textContent = scrambleText(text[i]);
+          charSpan.style.display = "block";
+          charSpan.style.color = getRandomColor();
+          charSpan.style.textShadow = `0 0 8px ${getRandomColor()}, 0 0 16px #fff2`;
+          charSpan.style.opacity = opacity;
+          // Hiệu ứng rơi cho từng ký tự
+          charSpan.animate(
+            [
+              { transform: "translateY(-60px)", opacity: 0 },
+              {
+                transform: `translateY(${Math.random() * 350 + 50}px)`,
+                opacity: 1,
+              },
+              {
+                transform: `translateY(${Math.random() * 400 + 100}px)`,
+                opacity: 0,
+              },
+            ],
+            {
+              duration: 4000,
+              easing: "linear",
+              fill: "forwards",
+            }
+          );
+          div.appendChild(charSpan);
+        }
+        container.appendChild(div);
+        // Hiệu ứng scrambling liên tục
+        let scrambleInterval = setInterval(() => {
+          for (let i = 0; i < div.children.length; i++) {
+            div.children[i].textContent = scrambleText(text[i]);
+          }
+        }, 80);
+        setTimeout(() => {
+          clearInterval(scrambleInterval);
+          div.remove();
+        }, 4000);
+      }
+
+      setInterval(createScramblingFallingText, 700);
+    </script>
+  </body>
+</html>
