@@ -51,54 +51,53 @@
     </style>
   </head>
   <body>
-    <div class="form-container">
-      <h2 style="text-align: center; color: #f9d423">Tạo Thiệp Sinh Nhật</h2>
-      <input type="text" id="receiverName" placeholder="Tên người được chúc" />
-      <input type="file" id="imgUpload" accept="image/*" />
-      <input type="file" id="audioUpload" accept="audio/*" />
-      <button onclick="createCard()">🎉 Tạo thiệp</button>
+    <div class="form-container" id="card">
+      <h2 style="text-align: center; color: #f9d423" id="cardTitle">
+        Thiệp Sinh Nhật
+      </h2>
+      <div
+        id="cardName"
+        style="font-size: 1.2em; margin: 12px 0; text-align: center"
+      ></div>
+      <img
+        id="cardImg"
+        style="
+          display: none;
+          max-width: 100%;
+          border-radius: 12px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.13);
+          margin: 12px auto;
+        "
+      />
+      <audio
+        id="cardAudio"
+        controls
+        style="display: none; width: 100%; margin-top: 12px"
+      ></audio>
     </div>
 
     <script>
-      function createCard() {
-        const name = document.getElementById("receiverName").value.trim();
-        const imgFile = document.getElementById("imgUpload").files[0];
-        const audioFile = document.getElementById("audioUpload").files[0];
-
-        const readerImg = new FileReader();
-        const readerAudio = new FileReader();
-
-        let imgData = "";
-        let audioData = "";
-
-        readerImg.onload = function (e) {
-          imgData = e.target.result;
-          localStorage.setItem("birthday_img", imgData);
-          continueIfReady();
-        };
-
-        readerAudio.onload = function (e) {
-          audioData = e.target.result;
-          localStorage.setItem("birthday_audio", audioData);
-          continueIfReady();
-        };
-
-        localStorage.setItem("birthday_name", name);
-
-        if (imgFile) readerImg.readAsDataURL(imgFile);
-        else continueIfReady();
-
-        if (audioFile) readerAudio.readAsDataURL(audioFile);
-        else continueIfReady();
-
-        let readyCount = 0;
-        function continueIfReady() {
-          readyCount++;
-          if (readyCount >= 2) {
-            window.location.href = "show.html?qr=1";
-          }
+      window.addEventListener("DOMContentLoaded", function () {
+        const name = localStorage.getItem("birthday_name") || "";
+        const img = localStorage.getItem("birthday_img") || "";
+        const audio = localStorage.getItem("birthday_audio") || "";
+        document.getElementById("cardName").textContent = name
+          ? `Chúc mừng sinh nhật ${name}!`
+          : "";
+        if (img) {
+          const cardImg = document.getElementById("cardImg");
+          cardImg.src = img;
+          cardImg.style.display = "block";
         }
-      }
+        if (audio) {
+          const cardAudio = document.getElementById("cardAudio");
+          cardAudio.src = audio;
+          cardAudio.style.display = "block";
+          cardAudio.loop = true;
+          cardAudio.volume = 0.7;
+          cardAudio.play();
+        }
+      });
     </script>
   </body>
 </html>

@@ -5,162 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chúc Mừng Sinh Nhật!</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <style>
-      .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
-        width: 100%;
-        margin-top: 20px;
-      }
-
-      @media (max-width: 600px) {
-        .form-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .form-grid .section {
-        background: rgba(255,255,255,0.7);
-        padding: 14px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-    </style>
   </head>
   <body>
     <div id="falling-text"></div>
-    <div class="container redesigned">
-      <div class="birthday-header">
-        <span class="birthday-icon">🎂</span>
-        <h1>Chúc Mừng Sinh Nhật!</h1>
+    <div class="container py-5">
+      <div class="text-center mb-4">
+        <span class="birthday-icon" style="font-size: 2.5em">🎂</span>
+        <h1 class="fw-bold text-danger">Chúc Mừng Sinh Nhật!</h1>
       </div>
-      <div class="form-grid">
-        <div class="section">
-          <label for="receiverName">Nhập tên người được chúc:</label>
-          <input type="text" id="receiverName" placeholder="VD: Mèo Mập" />
+      <form
+        class="row g-4 justify-content-center align-items-start bg-white bg-opacity-75 rounded-4 shadow p-4 mx-auto"
+        style="max-width: 600px"
+      >
+        <div class="col-12 col-md-7">
+          <div class="mb-3">
+            <label for="receiverName" class="form-label"
+              >👤 Tên người được chúc:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="receiverName"
+              placeholder="VD: Mèo con"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">🖼️ Ảnh sinh nhật:</label>
+            <input
+              type="file"
+              class="form-control"
+              id="imgUpload"
+              accept="image/*"
+            />
+            <img
+              id="birthdayImg"
+              class="birthday-img mt-3 w-100 rounded-3 shadow-sm"
+              style="display: none"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="audioUpload" class="form-label">🎵 Nhạc nền:</label>
+            <input
+              type="file"
+              class="form-control"
+              id="audioUpload"
+              accept="audio/*"
+            />
+            <audio
+              id="birthdayAudio"
+              controls
+              class="birthday-audio mt-2 w-100"
+              style="display: none"
+            ></audio>
+          </div>
         </div>
-        <div class="section">
-          <label for="imgUpload">🖼️ Ảnh sinh nhật:</label>
-          <input type="file" id="imgUpload" accept="image/*" />
-          <img id="birthdayImg" class="birthday-img" />
+        <div
+          class="col-12 col-md-5 d-flex flex-column align-items-center justify-content-start"
+        >
+          <button
+            type="button"
+            class="btn btn-warning btn-lg fw-bold mb-3"
+            id="createCardBtn"
+          >
+            🎉 Tạo thiệp
+          </button>
+          <canvas id="confetti" class="mb-3"></canvas>
+          <img
+            id="qrCode"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tgz07.github.io/Happy-birthday/"
+            alt="QR code"
+            class="mt-2 rounded-3 shadow-sm"
+            style="width: 150px; height: 150px"
+          />
         </div>
-        <div class="section">
-          <label for="audioUpload">🎵 Nhạc nền:</label>
-          <input type="file" id="audioUpload" accept="audio/*" />
-          <audio id="birthdayAudio" controls class="birthday-audio"></audio>
-        </div>
-        <div class="section" style="align-items: center">
-          <button class="confetti-btn" onclick="showConfetti()">🎉 Nhận pháo hoa</button>
-          <canvas id="confetti"></canvas>
-        </div>
-      </div>
-      <img id="qrCode" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tgz07.github.io/Happy-birthday/" alt="QR code" style="margin-top: 24px" />
+      </form>
     </div>
 
     <script src="script.js"></script>
-    <script>
-      const wishes = [
-        "Chúc mừng sinh nhật!",
-        "Vui vẻ, hạnh phúc nhé!",
-        "Thành công và may mắn!",
-        "Luôn cười thật tươi!",
-        "Mãi yêu đời!",
-        "Sức khỏe dồi dào!",
-        "Ước gì được nấy!",
-        "Bên gia đình và bạn bè!",
-        "Tuổi mới thật tuyệt!",
-        "Happy Birthday!"
-      ];
-
-      document.getElementById("receiverName").addEventListener("input", function () {
-        const name = this.value.trim();
-        const title = document.querySelector(".birthday-header h1");
-        title.textContent = name ? `Chúc Mừng Sinh Nhật ${name}!` : "Chúc Mừng Sinh Nhật!";
-      });
-
-      function getRandomColor() {
-        const colors = ["#ff4e50", "#f9d423", "#00c3ff", "#ff00cc", "#00ff99", "#ffcc00", "#ff6600", "#00ffcc", "#cc00ff", "#ff0066"];
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-
-      function scrambleText(text) {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let scrambled = "";
-        for (let i = 0; i < text.length; i++) {
-          scrambled += Math.random() > 0.5 ? chars[Math.floor(Math.random() * chars.length)] : text[i];
-        }
-        return scrambled;
-      }
-
-      function createScramblingFallingText() {
-        const text = wishes[Math.floor(Math.random() * wishes.length)];
-        const container = document.getElementById("falling-text");
-        const div = document.createElement("div");
-        div.className = "vertical-falling";
-        const left = Math.random() * 100;
-        const width = Math.random() * 2 + 1;
-        const scale = Math.random() * 0.7 + 0.7;
-        const blur = Math.random() * 2.5;
-        const opacity = Math.random() * 0.5 + 0.5;
-        div.style.left = left + "vw";
-        div.style.width = width + "em";
-        div.style.transform = `scale(${scale})`;
-        div.style.filter = `blur(${blur}px)`;
-        div.style.opacity = opacity;
-        div.style.textShadow = `0 0 16px ${getRandomColor()}, 0 0 32px #fff2`;
-        div.style.top = Math.random() * 80 + "vh";
-
-        for (let i = 0; i < text.length; i++) {
-          const charSpan = document.createElement("span");
-          charSpan.textContent = scrambleText(text[i]);
-          charSpan.style.display = "block";
-          charSpan.style.color = getRandomColor();
-          charSpan.style.textShadow = `0 0 8px ${getRandomColor()}, 0 0 16px #fff2`;
-          charSpan.style.opacity = opacity;
-          charSpan.animate([
-            { transform: "translateY(-60px)", opacity: 0 },
-            { transform: `translateY(${Math.random() * 350 + 50}px)`, opacity: 1 },
-            { transform: `translateY(${Math.random() * 400 + 100}px)`, opacity: 0 }
-          ], {
-            duration: 4000,
-            easing: "linear",
-            fill: "forwards"
-          });
-          div.appendChild(charSpan);
-        }
-        container.appendChild(div);
-
-        let scrambleInterval = setInterval(() => {
-          for (let i = 0; i < div.children.length; i++) {
-            div.children[i].textContent = scrambleText(text[i]);
-          }
-        }, 80);
-        setTimeout(() => {
-          clearInterval(scrambleInterval);
-          div.remove();
-        }, 4000);
-      }
-
-      function showConfetti() {
-        const duration = 2 * 1000;
-        const end = Date.now() + duration;
-
-        (function frame() {
-          confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-          confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-
-          if (Date.now() < end) {
-            requestAnimationFrame(frame);
-          }
-        })();
-      }
-
-      setInterval(createScramblingFallingText, 700);
-    </script>
+    <!-- JavaScript moved to script.js -->
   </body>
 </html>
