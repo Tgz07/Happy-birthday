@@ -1,0 +1,104 @@
+<!-- Đây là index.html: TRANG TẠO THIỆP -->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo Thiệp Sinh Nhật</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #111;
+        color: #fff;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .form-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 0 24px rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 420px;
+      }
+      .form-container input,
+      .form-container button {
+        width: 100%;
+        margin-top: 14px;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1em;
+      }
+      .form-container input[type="file"] {
+        padding: 6px;
+      }
+      .form-container button {
+        background: linear-gradient(90deg, #ff4e50, #f9d423);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .form-container button:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2 style="text-align: center; color: #f9d423">Tạo Thiệp Sinh Nhật</h2>
+      <input type="text" id="receiverName" placeholder="Tên người được chúc" />
+      <input type="file" id="imgUpload" accept="image/*" />
+      <input type="file" id="audioUpload" accept="audio/*" />
+      <button onclick="createCard()">🎉 Tạo thiệp</button>
+    </div>
+
+    <script>
+      function createCard() {
+        const name = document.getElementById("receiverName").value.trim();
+        const imgFile = document.getElementById("imgUpload").files[0];
+        const audioFile = document.getElementById("audioUpload").files[0];
+
+        const readerImg = new FileReader();
+        const readerAudio = new FileReader();
+
+        let imgData = "";
+        let audioData = "";
+
+        readerImg.onload = function (e) {
+          imgData = e.target.result;
+          localStorage.setItem("birthday_img", imgData);
+          continueIfReady();
+        };
+
+        readerAudio.onload = function (e) {
+          audioData = e.target.result;
+          localStorage.setItem("birthday_audio", audioData);
+          continueIfReady();
+        };
+
+        localStorage.setItem("birthday_name", name);
+
+        if (imgFile) readerImg.readAsDataURL(imgFile);
+        else continueIfReady();
+
+        if (audioFile) readerAudio.readAsDataURL(audioFile);
+        else continueIfReady();
+
+        let readyCount = 0;
+        function continueIfReady() {
+          readyCount++;
+          if (readyCount >= 2) {
+            window.location.href = "show.html?qr=1";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
